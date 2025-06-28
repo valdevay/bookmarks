@@ -2,10 +2,13 @@ package main
 
 import "fmt"
 
+type bookmarkType = map[string]string
+
 func main() {
 	fmt.Println("*** Bookmarks App ***")
-	bookmarks := map[string]string{}
+	bookmarks := bookmarkType{} // how much memory do we need?
 
+Menu:
 	for {
 		userAction := getMenu()
 
@@ -13,12 +16,12 @@ func main() {
 		case 1:
 			showBookmarks(bookmarks)
 		case 2:
-			bookmarks = addBookmark(bookmarks)
+			addBookmark(bookmarks)
 		case 3:
-			bookmarks = removeBookmark(bookmarks)
+			removeBookmark(bookmarks)
 		case 4:
 			fmt.Println("Application closed")
-			break
+			break Menu
 		}
 	}
 }
@@ -35,7 +38,7 @@ func getMenu() int {
 	return userAction
 }
 
-func showBookmarks(bookmarks map[string]string) {
+func showBookmarks(bookmarks bookmarkType) {
 	if len(bookmarks) == 0 {
 		fmt.Println("You have no bookmarks yet")
 	}
@@ -44,7 +47,7 @@ func showBookmarks(bookmarks map[string]string) {
 	}
 }
 
-func addBookmark(bookmarks map[string]string) map[string]string {
+func addBookmark(bookmarks bookmarkType) {
 	var newNameBookmark string
 	var newAdressBookmark string
 
@@ -53,15 +56,12 @@ func addBookmark(bookmarks map[string]string) map[string]string {
 	fmt.Println("Please input bookmark adress")
 	fmt.Scan(&newAdressBookmark)
 	bookmarks[newNameBookmark] = newAdressBookmark
-	return bookmarks
 }
 
-func removeBookmark(bookmarks map[string]string) map[string]string {
+func removeBookmark(bookmarks bookmarkType) {
 	var bookmarkToDelete string
 	fmt.Println("Please input bookmark name")
 	fmt.Scan(&bookmarkToDelete)
 	delete(bookmarks, bookmarkToDelete)
 	fmt.Println(bookmarkToDelete, "has been removed")
-	return bookmarks
-
 }
